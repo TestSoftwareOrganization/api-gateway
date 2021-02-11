@@ -54,9 +54,9 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     // TODO: SET PROPER TOKEN SECRET FOR JWT VALIDATION
     private boolean isJwtValid(String jwt) {
         boolean returnValue = true;
-
+        String tokenSecret = environment.getProperty("token.secret");
         // TODO: this property here could be extracted from Config Server, but we don`t have one.
-        String subject = Jwts.parser().setSigningKey(environment.getProperty("token.secret"))
+        String subject = Jwts.parser().setSigningKey(tokenSecret)
                 .parseClaimsJws(jwt)
                 .getBody()
                 .getSubject();

@@ -11,12 +11,12 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class CustomPostFilter implements GlobalFilter, Ordered {
-    final Logger logger = LoggerFactory.getLogger(CustomPostFilter.class);
+//    final Logger logger = LoggerFactory.getLogger(CustomPostFilter.class);
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         return chain.filter(exchange).then(Mono.fromRunnable(()-> {
-            logger.info("Last Global post filter is executed");
+//            logger.info("Last Global post filter is executed");
         }));
     }
 
