@@ -1,0 +1,27 @@
+server:
+  port: 8082
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  cloud:
+    gateway:
+      routes:
+        - id: users
+          uri: http://user-service:8012/
+          predicates:
+            - Path=/users/**
+            - Header=Authorization, Bearer (.*)
+            - Method=GET
+          filters:
+            - AuthorizationHeaderFilter
+        - id: users-login
+            uri: http://user-service:8012/
+            predicates:
+              - Path=/users/login
+              - Method=POST
+            filters:
+              - RemoveRequestHeader=Cookie
+#JWT
+tokenSecret: dadadas

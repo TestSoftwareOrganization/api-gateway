@@ -1,0 +1,27 @@
+server:
+  port: 8082
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: users
+#          uri: http://192.168.49.2:31081/
+          uri: http://localhost:8012/
+          predicates:
+            - Path=/users/**
+            - Header=Authorization,Bearer (.*)
+            - Method=GET
+          filters:
+            - AuthorizationHeaderFilter
+        #Not sure if this is needed. It works without it. The url is not processed by the auth filter
+        - id: users-login
+          uri: http://localhost:8012/
+          predicates:
+            - Path=/users/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+
+#JWT
+tokenSecret: dadadas
