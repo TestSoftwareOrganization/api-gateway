@@ -1,11 +1,12 @@
 package com.revo.eshop.api.gateway;
 
 import io.jsonwebtoken.Jwts;
-import org.apache.http.HttpHeaders;
+//import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -34,7 +35,6 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 return onError(exchange, "No authorization header", HttpStatus.UNAUTHORIZED);
             }
-
             String authorizationnHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
             String jwt = authorizationnHeader.replace("Bearer", "");
             if (!isJwtValid(jwt)){
@@ -54,7 +54,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     // TODO: SET PROPER TOKEN SECRET FOR JWT VALIDATION
     private boolean isJwtValid(String jwt) {
         boolean returnValue = true;
-        String tokenSecret = environment.getProperty("token.secret");
+        String tokenSecret = environment.getProperty("tokenSecret");
         // TODO: this property here could be extracted from Config Server, but we don`t have one.
         String subject = Jwts.parser().setSigningKey(tokenSecret)
                 .parseClaimsJws(jwt)

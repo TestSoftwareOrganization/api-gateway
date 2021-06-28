@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apig
+  namespace: eshop
+  creationTimestamp: null
+  labels:
+    app: apig
+  name: apig
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apig
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: apig
+    spec:
+      containers:
+      - image: apig
+        name: apig
+        imagePullPolicy: IfNotPresent
+        resources: {}
+status: {}
